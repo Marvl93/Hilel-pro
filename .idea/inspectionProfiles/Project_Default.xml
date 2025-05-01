@@ -1,0 +1,13 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyInterpreterInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="ai.ai_chat.XbDDlCGGCMWTlHGagIBKInlXcj7XQOA8YEeqouPpTOlY_6UYoNtU3SQNUZ_xnhH91A8F5EE4yAT3BlbkFJNR2VSSs7cwEZIewnQ7SW2E4Qd_em96qpDeky" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
