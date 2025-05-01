@@ -21,8 +21,9 @@ def menu():
                 print("Будь ласка, введіть ціле число для ID.")
         elif choice == '3':
             name = input("Введіть ім'я студента: ")
+            marks_str: str = input ("Введіть оцінки студента через кому: ")
             details = input("Введіть додаткову інформацію (необов'язково): ")
-            add_student(name, [], details)
+            add_student(name, marks_str, details)
         elif choice == '4':
             print("До побачення!")
             break
@@ -36,7 +37,7 @@ def show_students():
         return
     print("\nСписок студентів:")
     for student in students:
-        print(f"ID: {student['id']}, Ім'я: {student['name']}")
+        print(f"ID: {student['id']}, Ім'я: {student['name']}, Оцінки: {student['marks']}")
 
 def show_student(student_id: int):
     """Виводить інформацію про студента за його ID."""
@@ -46,24 +47,29 @@ def show_student(student_id: int):
             print(f"ID: {student['id']}")
             print(f"Ім'я: {student['name']}")
             print(f"Оцінки: {student['marks']}")
-            print(f"Інформація: {student['info']}")
+            print(f"Додаткова інформація: {student['info']}")
             return
     print(f"Студента з ID {student_id} не знайдено.")
 
-def add_student(name: str, marks: list[int], details: str | None):
+def add_student(name: str, marks_str: str, details: str | None):
     """Додає нового студента до списку."""
     global students
     new_id = 1
     if students:
         new_id = students[-1]['id'] + 1
+    try:
+        marks_list = [int(mark.strip()) for mark in marks_str.split(',')]
+    except ValueError:
+        print("Будь ласка, введіть оцінки через кому, використовуючи цілі числа.")
+        return
     new_student = {
         'id': new_id,
         'name': name,
-        'marks': marks,
+        'marks': marks_list,
         'info': details if details is not None else ""
     }
     students.append(new_student)
-    print(f"Студента '{name}' додано з ID {new_id}.")
+    print(f"Додано Студента '{name}', \nОцінки: {marks_list} \nЙого ID {new_id}.")
 
 if __name__ == "__main__":
     menu()
