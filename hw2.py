@@ -1,6 +1,6 @@
 students: list[dict] = []
 
-def main():
+def menu():
     while True:
         print("\nОберіть дію:")
         print("1. Показати всіх студентів")
@@ -66,4 +66,4 @@ def add_student(name: str, marks: list[int], details: str | None):
     print(f"Студента '{name}' додано з ID {new_id}.")
 
 if __name__ == "__main__":
-    main()
+    menu()
