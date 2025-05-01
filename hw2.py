@@ -22,7 +22,7 @@ def menu():
         elif choice == '3':
             name = input("Введіть ім'я студента: ")
             marks_str: str = input ("Введіть оцінки студента через кому: ")
-            details = input("Введіть додаткову інформацію (необов'язково): ")
+            details = input("Введіть додаткову інформацію про хобі, інтереси тощо (необов'язково): ")
             add_student(name, marks_str, details)
         elif choice == '4':
             print("До побачення!")
