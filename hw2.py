@@ -69,7 +69,8 @@ def add_student(name: str, marks_str: str, details: str | None):
         'info': details if details is not None else ""
     }
     students.append(new_student)
-    print(f"Додано Студента '{name}', \nОцінки: {marks_list} \nЙого ID {new_id}.")
+    print(f"Додано Студента: -- \nID {new_id} Імʼя: {name} \nОцінки: {marks_list} "
+          f"\nДодаткова інформація про студента: {details}.")
 
 if __name__ == "__main__":
     menu()
