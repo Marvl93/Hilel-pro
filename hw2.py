@@ -37,7 +37,8 @@ def show_students():
         return
     print("\nСписок студентів:")
     for student in students:
-        print(f"ID: {student['id']}, Ім'я: {student['name']}, Оцінки: {student['marks']}")
+        print(f"ID: {student['id']}, Ім'я: {student['name']}, Оцінки: {student['marks']}, "
+              f"Додаткова інформація: {student['info']}")
 
 def show_student(student_id: int):
     """Виводить інформацію про студента за його ID."""
