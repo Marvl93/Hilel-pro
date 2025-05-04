@@ -1,99 +1,123 @@
-students: list[dict] = []
+storage: list[dict] = [
+    {
+        "name": "John Doe",
+        "marks": [4, 12, 8, 2, 3],
+        "info": "John is 20y.o. Interests: play tennis"
+    },
+    {
+        "name": "Marry Fin",
+        "marks": [11, 2, 3, 5, 8],
+        "info": "John is 21y.o. Interests: dancing"
+    },
+    {
+        "name": "Hanry Odego",
+        "marks": [1, 2, 7, 9, 10],
+        "info": "John is 20y.o. Interests: boxing"
+    },
+    {
+        "name": "Terry Henry",
+        "marks": [11, 12, 9, 10, 7],
+        "info": "John is 20y.o. Interests: play footbal"
+    },
+    {
+        "name": "Markus Low",
+        "marks": [4, 6, 9, 10, 1],
+        "info": "John is 20y.o. Interests: reading books"
+    },
+    {
+        "name": "Any Anyston",
+        "marks": [9, 5, 2, 11, 12],
+        "info": "John is 20y.o. Interests: artist"
+    }
+]
+
+#CRUD
+def add_student (student: dict) -> dict | None:
+   if len(student) != 2:
+       return None
+
+   if not student.get("name") or not student.get("marks"):
+       return None
+   else:
+       storage.append(student)
+       return student
 
 def show_students():
-    """Виводить інформацію про всіх студентів."""
-    if not students:
-        print("Список студентів порожній.")
-        return
-    print("\nСписок студентів:")
-    for student in students:
-        print(f"======================="
-              f"\nID: {student['id']}, Ім'я: {student['name']}")
+    print("=========================\n")
+    for index, student in enumerate(storage, 1):
+            print(f"{index}. Student {student['name']}\n")
+    print("=========================\n")
 
-def show_student(student_id: int = None, student_name: str = None):
-    """Виводить інформацію про студента за його ID або іменем."""
-    found = False
-    if student_id is not None:
-        for student in students:
-            if student['id'] == student_id:
-                print("==============================")
-                print(f"Інформація про студента (ID {student_id}):")
-                print(f"ID: {student['id']}")
-                print(f"Ім'я: {student['name']}")
-                print(f"Оцінки: {student['marks']}")
-                print(f"Додаткова інформація: {student['info']}")
-                print("==============================")
-                return
-    if student_name is not None:
-        found_by_name = False
-        for student in students:
-            if student['name'] == student_name:
-                print("==============================")
-                print(f"Інформація про студента (ім'я '{student_name}'):")
-                print(f"ID: {student['id']}")
-                print(f"Ім'я: {student['name']}")
-                print(f"Оцінки: {student['marks']}")
-                print(f"Додаткова інформація: {student['info']}")
-                print("==============================")
-                found = True
-                found_by_name = True
-        if found_by_name:
+def search_student(student_name: str) -> None:
+    for student in storage:
+        info = (
+        "=========================\n"
+        f"Student {student['name']}\n"
+        f"Marks: {student['marks']}\n"
+        f"Info: {student['info']}\n"
+        "=========================\n"
+    )
+        if student['name'] == student_name:
+            print(info)
             return
+    print(f"Student {student_name} not found")
 
-    if not found:
-        print("Студента не знайдено")
+def ask_student_payload() -> dict:
+    ask_prompt = (
+        "Enter student's payload data using text template:"
+        "John Doe; 1,2,3,4,5\n"
+        "where 'John Doe' is a full name and [1,2,3,4,5] are marks.\n"
+        "The data must be separated by ';'"
+    )
+    def parse(data) -> dict:
+      name, raw_marks = data.split(";")
+      return {
+          "name": name,
+          "marks": [int(item) for item in raw_marks.replace(" ", "").split(",")],
+      }
 
+    user_data: str = input(ask_prompt)
+    return parse(user_data)
 
-def add_student(name: str, marks_str: str, details: str | None):
-    """Додає нового студента до списку."""
-    global students
-    new_id = 1
-    if students:
-        new_id = students[-1]['id'] + 1
-    try:
-        marks_list = [int(mark.strip()) for mark in marks_str.split(',')]
-    except ValueError:
-        print("Будь ласка, введіть оцінки через кому, використовуючи цілі числа.")
-        return
-    new_student = {
-        'id': new_id,
-        'name': name,
-        'marks': marks_list,
-        'info': details if details is not None else ""
-    }
-    students.append(new_student)
-    print(f"Додано Студента: -- \nID {new_id} Імʼя: {name} \nОцінки: {marks_list} "
-          f"\nДодаткова інформація про студента: {details}.")
-
-def menu():
-    while True:
-        print("\nПривіт, в нашому журналі! Оберіть дію:")
-        print("1. Показати всіх студентів")
-        print("2. Показати детальну інформацію про студента")
-        print("3. Додати нового студента")
-        print("4. Вийти")
-
-        choice = input("> ")
-
-        if choice == '1':
+def student_management_command_handle(command: str):
+    if command == "show":
             show_students()
-        elif choice == '2':
-            search_term = input("Введіть ID або ім'я студента: ")
-            try:
-                student_id = int(search_term)
-                show_student(student_id=student_id)
-            except ValueError:
-                show_student(student_name=search_term)
-        elif choice == '3':
-            name = input("Введіть ім'я студента: ")
-            marks_str: str = input ("Введіть оцінки студента через кому: ")
-            details = input("Введіть додаткову інформацію про хобі, інтереси тощо (необов'язково): ")
-            add_student(name, marks_str, details)
-        elif choice == '4':
-            print("До побачення!")
-            break
+    elif command == "add":
+        data = ask_student_payload()
+        if data:
+            student: dict | None = add_student(data)
+            print(f"Student: {student['name']} is added")
         else:
-            print("Невірний вибір. Будь ласка, спробуйте ще раз.")
+            print("The student's data is NOT correct. Please try again")
+    elif command == "search":
+        name = input("\nEnter student's name:")
+        if name:
+            search_student(student_name=name)
+        else:
+            print("Student's name is required to search")
+
+def handler_user_input():
+    OPERATION_COMMANDS = ("quit", "help")
+    STUDENR_MANAGEMENT_COMMANDS = ("show", "add", "search")
+    AVAILABLE_COMMANDS = (*OPERATION_COMMANDS, *STUDENR_MANAGEMENT_COMMANDS)
+
+    HELP_MESSAGE = (
+        "Hello in the Journal! User the menu to interact with the application. \n"
+        f"Avalible commands: {AVAILABLE_COMMANDS}"
+    )
+
+    print(HELP_MESSAGE)
+
+    while True:
+        command = input("\n Select command: ")
+
+        if command == "quit":
+            print("\n Thanks for using the Journal application")
+            break
+        elif command == "help":
+            print(HELP_MESSAGE)
+        else:
+            student_management_command_handle(command)
 
 if __name__ == "__main__":
-    menu()
+    handler_user_input()
