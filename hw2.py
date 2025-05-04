@@ -96,7 +96,7 @@ def student_management_command_handle(command: str):
         else:
             print("The student's data is NOT correct. Please try again")
     elif command == "search":
-        student_id: str= input("\nEnter student's ID:")
+        student_id: str = input("\nEnter student's ID:")
         if student_id:
             search_student(student_id=int(student_id))
         else:
